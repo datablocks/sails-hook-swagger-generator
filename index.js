@@ -27,23 +27,26 @@ module.exports = function (sails) {
                         description: 'This is a generated swagger json for your sails project',
                         termsOfService: 'http://example.com/terms',
                         contact: {
-                            name: 'Theophilus Omoregbee',
-                            url: 'http://github.com/theo4u',
-                            email: 'theo4u@ymail.com'
+                            name: 'Datablocks',
+                            url: 'http://datablocks.net',
+                            email: 'email@datablocks.net'
                         },
                         license: {name: 'Apache 2.0', url: 'http://www.apache.org/licenses/LICENSE-2.0.html'},
                         version: '1.0.0'
                     },
-                    host: 'localhost:1337',
+                    // host: 'localhost', // DOES NOT NEED TO BE SET
                     basePath: '/',
-                    externalDocs: {url: 'http://theophilus.ziippii.com'}
+                    externalDocs: {url: 'http://datablocks.net'}
                 }
             }
         },
         // Run when sails loads-- be sure and call `next()`.
         initialize: function (next) {
-            swaggerDoc(sails, this);
-            return next();
+            let that = this
+            sails.on('hook:orm:loaded', function(){
+                swaggerDoc(sails, that);
+                return next();
+            })
         }
 
     };
